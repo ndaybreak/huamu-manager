@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">推荐返利</title>
+  <link rel="stylesheet" href="css/common.css">
+  <style>
+    body {
+      padding-top: 0px;
+      background-color: #181b21;
+      color: #888f9e;
+      font-size: 30px;
+    }
+
+    .separator {
+      height: 10px;
+      background-color: #111419;
+    }
+    .banner {
+      height: 300px;
+      width: 100%;
+      background: url(img/banner.jpg) no-repeat center ;
+      -webkit-background-size: cover;
+      background-size: cover;
+    }
+    .banner-en {
+      background: url(img/banner_en.jpg) no-repeat center ;
+      -webkit-background-size: cover;
+      background-size: cover;
+    }
+    .invite-id {
+      padding: 40px 0;
+      text-align: center;
+    }
+    .invite-id .label{
+      font-size: 45px;
+      margin-right: 15px;
+    }
+    .invite-id .code{
+      display: inline-block;
+      width: 400px;
+      /*height: 66px;*/
+      line-height: 66px;
+      font-size: 70px;
+      color: #d7aa0f;
+      padding: 0 20px;
+      background-color: #232730;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      margin-right: 15px;
+      text-align: left;
+      border: none;
+    }
+    .invite-id img {
+      width: 66px;
+      height: 66px;
+    }
+    .info {
+      border-top: 1px solid #24282f;
+      padding: 10px 0;
+      text-align: center;
+      overflow: hidden;
+      font-size: 45px;
+    }
+    .info img {
+      width: 66px;
+      height: 66px;
+      margin-right: 5px;
+    }
+    .info .left {
+      padding: 27px 0;
+      border-right: 1px solid #24282f;
+      float: left;
+      width: 50%;
+    }
+    .info .right {
+      padding: 27px 0;
+      border-right: 1px solid #24282f;
+      float: left;
+      width: 50%;
+    }
+    .info .value {
+      font-size: 50px;
+      color: #ffffff;
+      margin-top: 15px;
+    }
+    .rule {
+      padding: 45px;
+      line-height: 1.6;
+    }
+    .rule-title {
+      font-size: 46px;
+    }
+    .rule-title {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    /* webkit, opera, IE9 */
+    div.highlightBlue::selection { background:transparent; }
+    /* mozilla firefox */
+    div.highlightBlue::-moz-selection { background:transparent; }
+
+    /* webkit, opera, IE9 */
+    div.highlightPink::selection { background:transparent; }
+    /* mozilla firefox */
+    div.highlightPink::-moz-selection { background:transparent; }
+
+    .tip {
+      position: fixed;
+      font-size: 48px;
+      padding: 15px 0;
+      width: 390px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      background-color: rgba(51, 51, 51, 0.75);
+      color: white;
+      border: 1px solid rgba(127, 127, 127, .5);
+      top: 50%;
+      left: 50%;
+      text-align: center;
+      line-height: 100px;
+      margin-left: -150px;
+      margin-top: -50px;
+      /*box-shadow: 5px 5px 5px rgba(255, 255, 255, .7);*/
+    }
+  </style>
+</head>
+<body>
+<div class="banner" id="banner"></div>
+<div class="separator"></div>
+<div class="invite-id">
+  <span class="label" id="text_1"></span><input id="code" class="code" value="" readonly/><span style="vertical-align: super;">
+      <button class="btn-copy" id="copyBtn" data-clipboard-target="#code" style="background-color: transparent;border: none;">
+        <img src="img/invite_1.png" alt="Copy to clipboard">
+      </button>
+    </span>
+</div>
+<div class="info">
+  <div class="left">
+    <div><img src="img/invite_2.png" alt=""><span id="text_2"></span></div>
+    <div class="value" id="friends"></div>
+  </div>
+  <div class="right">
+    <div><img src="img/invite_3.png" alt=""><span id="text_3"></span></div>
+    <div class="value"><span id="money"></span> BTC</div>
+  </div>
+</div>
+<div class="separator"></div>
+<div class="rule">
+  <div class="rule-title">&diams;&nbsp;&nbsp; <span id="text_4"></span>&nbsp;&nbsp;&diams;</div>
+  <div id="text_5"></div>
+</div>
+
+<div class="hide tip" id="tip"></div>
+
+<script src="js/common.js"></script>
+<script src="lib/zepto.min.js"></script>
+<script src="lib/clipboard.min.js"></script>
+<script>
+  var app = window.app || {}
+  var $ = window.$ || {}
+  function tip(message) {
+    var tip = $('#tip')
+    tip.html(message)
+    tip.removeClass('hide')
+    setTimeout(function() {
+      tip.addClass('hide')
+    }, 2000)
+  }
+  if (app.state.isZh) {
+    $('#title').html('推荐返利')
+    $('#text_1').html('我的推荐ID')
+    $('#text_2').html('已推荐的朋友')
+    $('#text_3').html('已获得的佣金预估')
+    $('#text_4').html('活动细则')
+    $('#text_5').html('<p>邀请新用户注册交易可以享受该用户40%的交易佣金提成。</p>')
+  } else {
+    $('#title').html('Referral Rebate')
+    $('#text_1').html('My Referral ID')
+    $('#text_2').html('Referral Friends')
+    $('#text_3').html('Commission Value')
+    $('#text_4').html('Note')
+    $('#text_5').html('<p>Once the new user is invited to register,  the inviter can get 40% of the transaction fee of the inviting person. </p>')
+    $('#banner').addClass('banner-en')
+  }
+
+  $(function() {
+    $.ajax({
+      url: app.state.baseUrl + '/commission/getCommissionList?token=' + app.state.token,
+      type: 'get',
+      headers: {
+        token: app.state.token
+      },
+      success: function(res) {
+        if (res.code !== '0') {
+          tip(res.info)
+        } else {
+          var data = res.data
+          $('#code').val(data.invitationCode)
+          $('#friends').html(data.invitationNum)
+          $('#money').html(data.valuation)
+        }
+      }
+    })
+  })
+</script>
+
+<script>
+  var btn = document.getElementById('copyBtn')
+  btn.addEventListener('click', function() {
+    var clipboard = new ClipboardJS('.btn-copy')
+    clipboard.on('success', function(e) {
+      tip('复制成功')
+      // 释放内存
+      clipboard.destroy()
+    })
+    clipboard.on('error', function(e) {
+      // 不支持复制
+      tip('不支持自动复制，请手动复制')
+      // 释放内存
+      // $('#code').blur()
+      clipboard.destroy()
+    })
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">注册协议</title>
+  <link rel="stylesheet" href="css/common.css">
+  <style>
+    body {
+      padding: 60px 30px 30px;
+      background-color: #181b21;
+      color: #ffffff;
+    }
+    .title {
+      font-size: 30px;
+      padding: 20px 0px;
+    }
+    .content {
+      font-size: 26px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+      color: #888f9e;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+
+  </div>
+  <script src="js/common.js"></script>
+  <script>
+    var app = window.app || {}
+    var $ = window.$ || {}
+    if (app.state.isZh) {
+      $('#title').html('注册协议')
+      $('#container').html('<div class="title">【最新修订】: 2018-07-16</div>\n' +
+        '    <div class="title">协议条件</div>\n' +
+        '    <div class="content">\n' +
+        '      <p>合同条件规定了在合同执行过程中当事人双方的职责范围、权利和义务（业主方委托参与项目管理一方的职责和授权范围），以及遇到各类问题（如工程进度、质量、检验、支付、变更、不可抗力、保险、索赔、争议和仲裁等）时，各方应遵守的原则、程序，并据此采取的相应措施等。</p>\n' +
+        '      <p>合同条件规定了在合同执行过程中当事人双方的职责范围、权利和义务（业主方委托参与项目管理一方的职责和授权范围），以及遇到各类问题（如工程进度、质量、检验、支付、变更、不可抗力、保险、索赔、争议和仲裁等）时，各方应遵守的原则、程序，并据此采取的相应措施等。</p>\n' +
+        '    </div>\n' +
+        '    <div class="title">协议条件</div>\n' +
+        '    <div class="content">\n' +
+        '      <p>合同条件规定了在合同执行过程中当事人双方的职责范围、权利和义务（业主方委托参与项目管理一方的职责和授权范围），以及遇到各类问题（如工程进度、质量、检验、支付、变更、不可抗力、保险、索赔、争议和仲裁等）时，各方应遵守的原则、程序，并据此采取的相应措施等。</p>\n' +
+        '    </div>\n' +
+        '    <div class="title">协议条件</div>\n' +
+        '    <div class="content">\n' +
+        '      <p>合同条件规定了在合并据此采取的相应措施等。</p>\n' +
+        '    </div>')
+    } else {
+      $('#title').html('Protocol')
+      $('#container').html('<div class="title">[Latest Updated]: 2018-07-16</div>\n' +
+        '    <div class="title">protocol conditions</div>\n' +
+        '    <div class="content">\n' +
+        '      <p>Once the new user is invited to register,  the inviter can get 40% of the transaction fee of the inviting person.</p>\n' +
+        '    </div>')
+    }
+  </script>
+</body>
+</html>

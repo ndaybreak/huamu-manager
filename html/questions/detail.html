@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">详情</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <style>
+    body {
+      padding-top: 0px;
+      background-color: white;
+      color: #111111;
+      font-size: 45px;
+    }
+    .block {
+      height: 15px;
+      background-color: #f0f0f6;
+    }
+    .category-wrap {
+      margin-top: 15px;
+      padding: 30px 40px;
+    }
+    .title {
+      font-size: 45px;
+    }
+    .category {
+      overflow: hidden;
+      padding: 60px 0 35px 0;
+    }
+    .item {
+      float: left;
+      width: 25%;
+      text-align: center;
+    }
+    .icon-category {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 22px;
+    }
+    .label-category {
+
+    }
+    .question-item {
+      padding: 40px 30px 40px 40px;
+      position: relative;
+    }
+    .question-item:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+      height: 1px;
+      background-color: #d9d9d9;
+    }
+    .question-title {
+      padding-right: 30px;
+      line-height: 1.2;
+      font-weight: 500;
+    }
+    .arrow-right {
+      float: right;
+      width: 15px;
+    }
+    .content {
+      padding: 40px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+<div class="block"></div>
+<div class="question-item">
+  <div class="question-title" id="itemTitle"></div>
+</div>
+<div class="content" id="content"></div>
+
+
+
+<script src="../js/common.js"></script>
+<script src="../lib/zepto.min.js"></script>
+<script>
+  var app = window.app || {}
+  if (app.state.isZh) {
+    $('#title').html('详情')
+  } else {
+    $('#title').html('Detail')
+  }
+
+  $(function() {
+    $.ajax({
+      url: app.state.baseUrl + '/managementSystem/public/queryHelpContentByid?id=' + app.utils.getSearchPara('id'),
+      type: 'post',
+      headers: {
+        lang: app.state.isZh ? 0 : 1
+      },
+      success: function(res) {
+        if (res.code === '0') {
+          $('#itemTitle').html(res.data[0].title)
+          $('#content').html(res.data[0].content)
+        }
+      }
+    })
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">帮助中心</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <style>
+    body {
+      padding-top: 0px;
+      background-color: white;
+      color: #111111;
+      font-size: 45px;
+    }
+    .block {
+      height: 15px;
+      background-color: #f0f0f6;
+    }
+    .category-wrap {
+      margin-top: 15px;
+      padding: 30px 40px;
+    }
+    .title {
+      font-size: 45px;
+      font-weight: bold;
+    }
+    .category {
+      overflow: hidden;
+      padding: 60px 0 35px 0;
+    }
+    .item {
+      float: left;
+      width: 25%;
+      text-align: center;
+    }
+    .icon-category {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 22px;
+    }
+    .label-category {
+
+    }
+    .question-item {
+      padding: 40px 30px 40px 40px;
+      position: relative;
+    }
+    .question-item:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+      height: 1px;
+      background-color: #d9d9d9;
+    }
+    .question-title {
+      padding-right: 30px;
+      line-height: 1.2;
+    }
+    .arrow-right {
+      float: right;
+      width: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="block"></div>
+  <div id="categoryWrap" class="category-wrap">
+    <div class="title" id="categoryId"></div>
+    <div class="category" id="category">
+      <!--<div class="item">-->
+        <!--<img class="icon-category" src="../img/home1.png" alt="">-->
+        <!--<div class="label-category">充值提现</div>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<img class="icon-category" src="../img/home2.png" alt="">-->
+        <!--<div class="label-category">交易指南</div>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<img class="icon-category" src="../img/home3.png" alt="">-->
+        <!--<div class="label-category">账户访问</div>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<img class="icon-category" src="../img/home4.png" alt="">-->
+        <!--<div class="label-category">一般问题</div>-->
+      <!--</div>-->
+    </div>
+  </div>
+  <div class="block"></div>
+  <div class="title" style="padding-left: 40px;margin-top: 40px;" id="recommend"></div>
+  <div id="questionWrap">
+    <!--<div class="question-item">-->
+      <!--<img class="arrow-right" src="../img/arrow_right.png" alt="">-->
+      <!--<div class="question-title">INFO新手指南</div>-->
+    <!--</div>-->
+  </div>
+
+<script src="../js/common.js"></script>
+<script src="../lib/zepto.min.js"></script>
+<script>
+  var app = window.app || {}
+  if (app.state.isZh) {
+    $('#title').html('帮助中心')
+    $('#categoryId').html('问题分类')
+    $('#recommend').html('常见问题')
+  } else {
+    $('#title').html('Help Center')
+    $('#categoryId').html('Types')
+    $('#recommend').html('FAQ')
+  }
+
+  function formatData(data) {
+    var categoryMap = {}
+    for(var i = 0, len = data.length; i < len; i++) {
+      var item = data[i]
+      if (categoryMap[item.id]) {
+        categoryMap[item.id].push(item)
+      } else {
+        categoryMap[item.id] = [item]
+      }
+    }
+    sessionStorage.setItem('categoryMap', JSON.stringify(categoryMap))
+
+    var result = []
+    for(var id in categoryMap) {
+      if(categoryMap.hasOwnProperty(id)) {
+        result.push({
+          id: id,
+          value: categoryMap[id][0].catalog,
+          data: categoryMap[id]
+        })
+      }
+    }
+    return result
+  }
+
+  function getRecommendData(data) {
+    var result = []
+    for(var i = 0, len = data.length; i < len; i++) {
+      var item = data[i]
+      if (item.is_recommend) {
+        result.push(item)
+      }
+    }
+    return result
+  }
+
+  $(function() {
+    $.ajax({
+      url: app.state.baseUrl + '/managementSystem/public/queryHelpCenterWEB',
+      type: 'post',
+      headers: {
+        lang: app.state.isZh ? 0 : 1
+      },
+      success: function(res) {
+        if (res.code === '0') {
+          var data = formatData(res.data)
+          var len = data.length > 4 ? 4 : data.length
+          var list = []
+          for (var i = 0; i < len; i++) {
+            list.push('<div class="item" categoryId="' + data[i].id + '">\n' +
+              '        <img class="icon-category" src="../img/home' + (i + 1) + '.png" alt="">\n' +
+              '        <div class="label-category">' + data[i].value + '</div>\n' +
+              '      </div>')
+          }
+          $('#category').html(list.join(''))
+
+          var reconmendData = getRecommendData(res.data)
+          var reList = []
+          for (var j = 0, l = reconmendData.length; j < l; j++) {
+            reList.push('<div class="question-item" itemId="' + reconmendData[j].info_id + '">\n' +
+              '      <img class="arrow-right" src="../img/arrow_right.png" alt="">\n' +
+              '      <div class="question-title">' + reconmendData[j].title + '</div>\n' +
+              '    </div>')
+          }
+          $('#questionWrap').html(reList.join(''))
+        }
+      }
+    })
+
+    $('#categoryWrap').on('click', '.item', function(e) {
+      window.location.href = 'category.html?version=1&id=' + $(this).attr('categoryId') + '&lang=' + app.utils.getSearchPara('lang')
+    })
+    $('#questionWrap').on('click', '.question-item', function(e) {
+      window.location.href = 'detail.html?version=1&id=' + $(this).attr('itemId') + '&lang=' + app.utils.getSearchPara('lang')
+    })
+  })
+</script>
+</body>
+</html>

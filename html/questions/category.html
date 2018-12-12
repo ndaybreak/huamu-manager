@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="title">分类</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <style>
+    body {
+      padding-top: 0px;
+      background-color: white;
+      color: #111111;
+      font-size: 45px;
+    }
+    .block {
+      height: 15px;
+      background-color: #f0f0f6;
+    }
+    .category-wrap {
+      margin-top: 15px;
+      padding: 30px 40px;
+    }
+    .title {
+      font-size: 45px;
+    }
+    .category {
+      overflow: hidden;
+      padding: 60px 0 35px 0;
+    }
+    .item {
+      float: left;
+      width: 25%;
+      text-align: center;
+    }
+    .icon-category {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 22px;
+    }
+    .label-category {
+
+    }
+    .question-item {
+      padding: 40px 30px 40px 40px;
+      position: relative;
+    }
+    .question-item:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+      height: 1px;
+      background-color: #d9d9d9;
+    }
+    .question-title {
+      padding-right: 30px;
+      line-height: 1.2;
+    }
+    .arrow-right {
+      float: right;
+      width: 15px;
+    }
+  </style>
+</head>
+<body>
+<div class="block"></div>
+<div id="questionWrap">
+  <!--<div class="question-item">-->
+    <!--<img class="arrow-right" src="../img/arrow_right.png" alt="">-->
+    <!--<div class="question-title">INFO新手指南</div>-->
+  <!--</div>-->
+  <!--<div class="question-item">-->
+    <!--<img class="arrow-right" src="../img/arrow_right.png" alt="">-->
+    <!--<div class="question-title">提现到错误地址怎么办？</div>-->
+  <!--</div>-->
+  <!--<div class="question-item">-->
+    <!--<img class="arrow-right" src="../img/arrow_right.png" alt="">-->
+    <!--<div class="question-title">如何交易</div>-->
+  <!--</div>-->
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../lib/zepto.min.js"></script>
+<script>
+  var app = window.app || {}
+
+  $(function() {
+    var categoryMap = JSON.parse(sessionStorage.getItem('categoryMap'))
+    var data = categoryMap[app.utils.getSearchPara('id')]
+
+    document.getElementById('title').innerText = data[0].catalog
+    var list = []
+    for (var j = 0, l = data.length; j < l; j++) {
+      list.push('<div class="question-item" itemId="' + data[j].info_id + '">\n' +
+        '      <img class="arrow-right" src="../img/arrow_right.png" alt="">\n' +
+        '      <div class="question-title">' + data[j].title + '</div>\n' +
+        '    </div>')
+    }
+    $('#questionWrap').html(list.join(''))
+
+    $('#questionWrap').on('click', '.question-item', function(e) {
+      window.location.href = 'detail.html?version=1&id=' + $(this).attr('itemId') + '&lang=' + app.utils.getSearchPara('lang')
+    })
+  })
+</script>
+</body>
+</html>
